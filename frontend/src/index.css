@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f8f9ff;
+  --color-primary: #0f172a;
+  --color-secondary: #10b981;
+  --color-accent: #3b82f6;
+  --color-neutral: #64748b;
+  --color-surface: #ffffff;
+}
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  body {
+    @apply bg-background text-primary;
+  }
+}

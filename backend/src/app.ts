@@ -17,8 +17,18 @@ const app: Application = express();
 app.use(helmet());
 
 // Dynamic CORS enabling cross-origin cookie credentials
+const allowedOrigins = process.env.CLIENT_URL 
+  ? process.env.CLIENT_URL.split(',') 
+  : ['http://localhost:5173'];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -33,6 +43,16 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '10kb' }));
 
 // 2. ROOT & HEALTH CHECK ROUTES
+
+/**
+ * Root endpoint - simple health check
+ */
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'Welcome to the Smart Leads API. API is running on /api/v1'
+  });
+});
 
 /**
  * Health check endpoint - exposes API operational status and MongoDB connection status.

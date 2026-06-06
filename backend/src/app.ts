@@ -18,8 +18,9 @@ app.use(helmet());
 
 // Dynamic CORS enabling cross-origin cookie credentials
 const allowedOrigins = process.env.CLIENT_URL 
-  ? process.env.CLIENT_URL.split(',') 
+  ? process.env.CLIENT_URL.split(',').map(url => url.trim().replace(/\/$/, '')) 
   : [
+      "https://leader-dash-board-2.vercel.app",
       "https://my-frontend.vercel.app",
       "http://localhost:5173"
     ];

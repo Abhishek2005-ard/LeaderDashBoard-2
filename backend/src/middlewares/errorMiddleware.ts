@@ -60,11 +60,13 @@ const sendErrorProd = (err: AppError | any, res: Response): void => {
       message: err.message
     });
   } else {
-    // Programming or other unknown error: don't leak leak server details to the client
+    // Programming or other unknown error: print to logs and return details to help with deployment debugging
     console.error('[CRITICAL SYSTEM ERROR]', err);
     res.status(500).json({
       status: 'error',
-      message: 'Something went very wrong on our servers. Please try again later.'
+      message: err.message || 'Something went very wrong on our servers. Please try again later.',
+      stack: err.stack,
+      error: err
     });
   }
 };

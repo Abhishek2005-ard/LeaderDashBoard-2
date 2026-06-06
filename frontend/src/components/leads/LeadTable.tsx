@@ -45,7 +45,10 @@ export const LeadTable: React.FC<LeadTableProps> = ({ leads, onEdit, onDelete, o
           <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Name & Email
+                Lead / Company
+              </th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Contact Info
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
@@ -65,11 +68,15 @@ export const LeadTable: React.FC<LeadTableProps> = ({ leads, onEdit, onDelete, o
             {leads.map((lead) => (
               <tr key={lead._id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">{lead.name}</div>
-                      <div className="text-sm text-gray-500">{lead.email}</div>
-                    </div>
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">{lead.name}</div>
+                    <div className="text-xs text-gray-500">{lead.company || <span className="italic text-gray-400">No company</span>}</div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div className="text-sm text-gray-900 font-medium">{lead.email}</div>
+                    <div className="text-xs text-gray-500">{lead.phone || <span className="italic text-gray-400">No phone</span>}</div>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">

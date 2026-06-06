@@ -5,19 +5,25 @@ import { ILead } from '../types';
  * Escapes internal quotes to prevent structural parsing breakages.
  */
 export const generateLeadsCSV = (leads: ILead[]): string => {
-  const headers = ['Lead ID', 'Name', 'Email', 'Status', 'Source', 'Created At'];
+  const headers = ['Lead ID', 'Name', 'Email', 'Phone', 'Company', 'Status', 'Source', 'Notes', 'Created At'];
 
   const rows = leads.map(lead => {
     // Clean and escape fields to prevent CSV injection or broken rows
     const name = lead.name ? `"${lead.name.replace(/"/g, '""')}"` : '""';
     const email = lead.email ? `"${lead.email.replace(/"/g, '""')}"` : '""';
+    const phone = lead.phone ? `"${lead.phone.replace(/"/g, '""')}"` : '""';
+    const company = lead.company ? `"${lead.company.replace(/"/g, '""')}"` : '""';
+    const notes = lead.notes ? `"${lead.notes.replace(/"/g, '""')}"` : '""';
     
     return [
       lead._id.toString(),
       name,
       email,
+      phone,
+      company,
       lead.status,
       lead.source,
+      notes,
       new Date(lead.createdAt).toISOString()
     ].join(',');
   });

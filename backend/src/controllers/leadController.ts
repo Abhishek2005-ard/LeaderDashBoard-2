@@ -14,13 +14,16 @@ export const createLead = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { name, email, status, source } = req.body;
+    const { name, email, phone, company, status, source, notes } = req.body;
 
     const newLead = await Lead.create({
       name,
       email,
+      phone,
+      company,
       status: status || 'New',
       source,
+      notes,
       createdBy: req.user?._id
     });
 
@@ -51,14 +54,16 @@ export const getLeads = async (
     if (req.query.status) filter.status = req.query.status;
     if (req.query.source) filter.source = req.query.source;
     
-    // Fuzzy Search by Name or Email using regex
+    // Fuzzy Search by Name, Email, Phone, or Company using regex
     if (req.query.search) {
       const searchRegex = new RegExp(req.query.search as string, 'i');
       filter.$and = [
         {
           $or: [
             { name: searchRegex },
-            { email: searchRegex }
+            { email: searchRegex },
+            { phone: searchRegex },
+            { company: searchRegex }
           ]
         }
       ];
@@ -135,8 +140,11 @@ export const updateLead = async (
       {
         name: req.body.name,
         email: req.body.email,
+        phone: req.body.phone,
+        company: req.body.company,
         status: req.body.status,
-        source: req.body.source
+        source: req.body.source,
+        notes: req.body.notes
       },
       {
         new: true,
@@ -205,7 +213,9 @@ export const exportLeads = async (
         {
           $or: [
             { name: searchRegex },
-            { email: searchRegex }
+            { email: searchRegex },
+            { phone: searchRegex },
+            { company: searchRegex }
           ]
         }
       ];

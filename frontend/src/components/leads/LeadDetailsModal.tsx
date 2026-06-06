@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ILead } from '../../types';
 import { Button } from '../common/Button';
-import { X, Calendar, Mail, Tag, Compass } from 'lucide-react';
+import { X, Calendar, Mail, Tag, Compass, Phone, Briefcase, FileText } from 'lucide-react';
 
 interface LeadDetailsModalProps {
   isOpen: boolean;
@@ -83,6 +83,30 @@ export const LeadDetailsModal: React.FC<LeadDetailsModalProps> = ({ isOpen, onCl
                 </div>
 
                 <div className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-neutral mt-0.5" />
+                  <div>
+                    <span className="block text-xs font-semibold text-neutral uppercase tracking-wider">Phone Number</span>
+                    {lead.phone ? (
+                      <a href={`tel:${lead.phone}`} className="text-primary text-sm hover:underline font-medium">
+                        {lead.phone}
+                      </a>
+                    ) : (
+                      <span className="text-neutral text-sm italic">Not provided</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Briefcase className="w-5 h-5 text-neutral mt-0.5" />
+                  <div>
+                    <span className="block text-xs font-semibold text-neutral uppercase tracking-wider">Company</span>
+                    <span className="text-primary text-sm font-medium">
+                      {lead.company || <span className="text-neutral italic">Not provided</span>}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
                   <Calendar className="w-5 h-5 text-neutral mt-0.5" />
                   <div>
                     <span className="block text-xs font-semibold text-neutral uppercase tracking-wider">Created At</span>
@@ -99,6 +123,19 @@ export const LeadDetailsModal: React.FC<LeadDetailsModalProps> = ({ isOpen, onCl
                     <span className="text-primary text-xs font-mono select-all bg-neutral/5 p-1 rounded">
                       {lead._id}
                     </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Notes Section */}
+              <div className="pt-6 border-t border-neutral/10">
+                <div className="flex items-start gap-3">
+                  <FileText className="w-5 h-5 text-neutral mt-0.5" />
+                  <div className="w-full">
+                    <span className="block text-xs font-semibold text-neutral uppercase tracking-wider mb-1">Notes</span>
+                    <div className="text-primary text-sm bg-neutral/5 p-3 rounded-lg border border-neutral/10 whitespace-pre-wrap min-h-[60px]">
+                      {lead.notes || <span className="text-neutral italic">No notes added.</span>}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -39,7 +39,7 @@ export const LeadFilters: React.FC<LeadFiltersProps> = ({ filters, setFilters, o
           <input
             type="text"
             className="block w-full pl-10 pr-3 py-2 border border-neutral/20 rounded-lg leading-5 bg-surface placeholder-neutral/50 focus:outline-none focus:placeholder-neutral/40 focus:ring-1 focus:ring-accent focus:border-accent sm:text-sm text-primary"
-            placeholder="Search by name or email..."
+            placeholder="Search by name, email, phone, or company..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

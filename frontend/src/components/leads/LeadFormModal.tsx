@@ -18,8 +18,11 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
+    company: '',
     status: 'New' as LeadStatus,
-    source: 'Website' as LeadSource
+    source: 'Website' as LeadSource,
+    notes: ''
   });
 
   const [error, setError] = useState('');
@@ -30,11 +33,22 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
       setFormData({
         name: initialData.name,
         email: initialData.email,
+        phone: initialData.phone || '',
+        company: initialData.company || '',
         status: initialData.status,
-        source: initialData.source
+        source: initialData.source,
+        notes: initialData.notes || ''
       });
     } else {
-      setFormData({ name: '', email: '', status: 'New', source: 'Website' });
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        status: 'New',
+        source: 'Website',
+        notes: ''
+      });
     }
     setError('');
   }, [initialData, isOpen]);
@@ -108,6 +122,26 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
               />
 
               <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="Phone Number"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="+1 (555) 000-0000"
+                  className="mb-0"
+                />
+                
+                <Input
+                  label="Company Name"
+                  type="text"
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  placeholder="Acme Corp"
+                  className="mb-0"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-primary mb-1">Status</label>
                   <select
@@ -133,6 +167,16 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
                     <option value="Referral">Referral</option>
                   </select>
                 </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-primary mb-1">Notes</label>
+                <textarea
+                  className="w-full px-3 py-2 border border-neutral/20 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent bg-surface text-primary transition-colors min-h-[80px]"
+                  placeholder="Enter notes about the lead..."
+                  value={formData.notes}
+                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                />
               </div>
 
               <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">

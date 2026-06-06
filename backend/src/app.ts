@@ -17,14 +17,27 @@ const app: Application = express();
 app.use(helmet());
 
 // Dynamic CORS enabling cross-origin cookie credentials
+const allowedOrigins = process.env.CLIENT_URL 
+  ? process.env.CLIENT_URL.split(',') 
+  : [
+      "https://my-frontend.vercel.app",
+      "http://localhost:5173"
+    ];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL 
-      ? process.env.CLIENT_URL.split(',') 
-      : [
-          "https://my-frontend.vercel.app",
-          "http://localhost:5173"
-        ],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      
+      const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
+      
+      if (allowedOrigins.includes(origin) || (process.env.NODE_ENV === 'development' && isLocalhost)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );

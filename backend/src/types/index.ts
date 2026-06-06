@@ -40,8 +40,11 @@ export interface ILead extends Document {
   _id: Types.ObjectId;
   name: string;
   email: string;
+  phone?: string;
+  company?: string;
   status: LeadStatus;
   source: LeadSource;
+  notes?: string;
   createdBy: Types.ObjectId | IUser;
   createdAt: Date;
   updatedAt: Date;

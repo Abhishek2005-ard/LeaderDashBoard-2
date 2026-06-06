@@ -38,6 +38,20 @@ const leadSchema = new Schema<ILead>(
       required: [true, 'Please provide a lead source.'],
       index: true
     },
+    phone: {
+      type: String,
+      trim: true,
+      index: true
+    },
+    company: {
+      type: String,
+      trim: true,
+      index: true
+    },
+    notes: {
+      type: String,
+      trim: true
+    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -52,7 +66,7 @@ const leadSchema = new Schema<ILead>(
 // Compound indexes for optimized querying (e.g. filtering by status and source while sorting by date)
 leadSchema.index({ status: 1, source: 1, createdAt: -1 });
 
-// Text index to allow efficient text search across name and email
-leadSchema.index({ name: 'text', email: 'text' });
+// Text index to allow efficient text search across name, email, phone, and company
+leadSchema.index({ name: 'text', email: 'text', phone: 'text', company: 'text' });
 
 export const Lead = model<ILead>('Lead', leadSchema);

@@ -32,8 +32,9 @@ app.use(
       if (!origin) return callback(null, true);
       
       const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
+      const isVercel = origin.endsWith('.vercel.app');
       
-      if (allowedOrigins.includes(origin) || (process.env.NODE_ENV === 'development' && isLocalhost)) {
+      if (allowedOrigins.includes(origin) || (process.env.NODE_ENV === 'development' && isLocalhost) || isVercel) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));

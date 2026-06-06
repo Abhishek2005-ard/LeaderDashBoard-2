@@ -1,8 +1,11 @@
 import axios from 'axios';
 
 // Create base instance
+const isDev = import.meta.env.DEV;
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://leaderdashboard-2.onrender.com',
+  baseURL: isDev 
+    ? (import.meta.env.VITE_API_URL || 'http://localhost:5000') 
+    : 'https://leaderdashboard-2.onrender.com',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
